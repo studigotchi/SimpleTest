@@ -6,13 +6,13 @@ pipeline {
         stage('Cleanup') {
             steps {
                 echo 'Cleaning up, removing previous builds'
-                sh 'rm -fr ./build/*'
+                sh 'sudo rm -fr ./build/*'
                 echo 'Cleanup done'
             }
         }
         stage('Build') {
             steps {
-                sh 'gradlew assemble --no-daemon'
+                sh 'sudo gradlew assemble --no-daemon'
             }
         }
         stage('Test') {
