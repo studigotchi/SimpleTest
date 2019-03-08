@@ -1,0 +1,40 @@
+#!/usr/bin/env groovy
+
+pipeline {
+    agent any
+    stages {
+        stage('Cleanup') {
+            steps {
+                echo 'Cleaning up, removing previous builds'
+                rm -fr ./build/*
+                echo 'Cleanup done'
+            }
+        }
+        stage('Build') {
+            steps {
+                gradlew assemble
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing... (NO-OP)'
+                }
+            }
+        }
+    post {
+        success {
+            echo 'Success, now moving to web server'
+            echo 'Shutting down the current server'
+            sh sudo /opt/tomcat/bin/shutdown.sh
+
+            echo 'Deleting the existing wars (if any) from the server'
+            rm -f /opt/tomcat/webapps/*.war
+
+            echo 'Moving the war(s) to the server'
+            mv -f ./build/libs/*.war /opt/tomcat/webapps/
+
+            echo 'Start the server again'
+            sh sudo /opt/tomcat/bin/startup.sh
+        }
+    }
+}
