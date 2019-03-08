@@ -12,7 +12,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'gradlew assemble --no-daemon'
+                sh 'sh gradlew assemble --no-daemon'
             }
         }
         stage('Test') {
