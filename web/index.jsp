@@ -15,7 +15,8 @@
   Some interesting Content
   <p>
     Actually, scratch that, this is only the landing page!<br/>
-    What did you expect?
+    What did you expect?<br/>
+    I'm not gonna send you any secret information in plain text!
   </p>
   </body>
 </html>
