@@ -14,7 +14,8 @@
   Some Content...
   Some interesting Content
   <p>
-    Actually, scratch that, this is only the landing page!
+    Actually, scratch that, this is only the landing page!<br/>
+    What did you expect?
   </p>
   </body>
 </html>
