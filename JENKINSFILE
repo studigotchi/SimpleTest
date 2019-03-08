@@ -12,7 +12,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'gradlew assemble'
+                sh 'gradlew assemble --no-daemon'
             }
         }
         stage('Test') {
@@ -28,10 +28,10 @@ pipeline {
             sh 'sudo /opt/tomcat/bin/shutdown.sh'
 
             echo 'Deleting the existing wars (if any) from the server'
-            sh 'rm -f /opt/tomcat/webapps/*.war'
+            sh 'sudo rm -f /opt/tomcat/webapps/*.war'
 
             echo 'Moving the war(s) to the server'
-            sh 'mv -f ./build/libs/*.war /opt/tomcat/webapps/'
+            sh 'sudo mv -f ./build/libs/*.war /opt/tomcat/webapps/'
 
             echo 'Start the server again'
             sh 'sudo /opt/tomcat/bin/startup.sh'
