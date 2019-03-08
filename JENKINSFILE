@@ -20,21 +20,24 @@ pipeline {
                 echo 'Testing... (NO-OP)'
                 }
             }
-        }
-    post {
-        success {
-            echo 'Success, now moving to web server'
-            echo 'Shutting down the current server'
-            sh '/opt/tomcat/bin/shutdown.sh'
+        
+        stage('Deploy') {
+            steps {
+                echo 'Success, now moving to web server'
+                echo 'Shutting down the current server'
+                sh '/opt/tomcat/bin/shutdown.sh'
 
-            echo 'Deleting the existing wars (if any) from the server'
-            sh 'rm -f /opt/tomcat/webapps/*.war'
+                echo 'Deleting the existing wars (if any) from the server'
+                sh 'rm -f /opt/tomcat/webapps/*.war'
 
-            echo 'Moving the war(s) to the server'
-            sh 'mv -f ./build/libs/*.war /opt/tomcat/webapps/'
+                echo 'Moving the war(s) to the server'
+                sh 'mv -f ./build/libs/*.war /opt/tomcat/webapps/'
 
-            echo 'Start the server again'
-            sh '/opt/tomcat/bin/startup.sh'
+                echo 'Start the server again'
+                withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
+                    sh '/opt/tomcat/bin/startup.sh'
+                }
+            }
         }
     }
 }
