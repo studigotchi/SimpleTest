@@ -31,6 +31,7 @@ pipeline {
                 sh 'rm -f /opt/tomcat/webapps/*.war'
 
                 echo 'Moving the war(s) to the server'
+                sh 'chmod 777 ./build/libs/*.war'
                 sh 'mv -f ./build/libs/*.war /opt/tomcat/webapps/'
 
                 echo 'Start the server again'
