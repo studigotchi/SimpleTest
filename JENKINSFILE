@@ -6,13 +6,13 @@ pipeline {
         stage('Cleanup') {
             steps {
                 echo 'Cleaning up, removing previous builds'
-                sh 'sudo rm -fr ./build/*'
+                sh 'rm -fr ./build/*'
                 echo 'Cleanup done'
             }
         }
         stage('Build') {
             steps {
-                sh 'sudo gradlew assemble --no-daemon'
+                sh 'gradlew assemble --no-daemon'
             }
         }
         stage('Test') {
@@ -25,16 +25,16 @@ pipeline {
         success {
             echo 'Success, now moving to web server'
             echo 'Shutting down the current server'
-            sh 'sudo /opt/tomcat/bin/shutdown.sh'
+            sh '/opt/tomcat/bin/shutdown.sh'
 
             echo 'Deleting the existing wars (if any) from the server'
-            sh 'sudo rm -f /opt/tomcat/webapps/*.war'
+            sh 'rm -f /opt/tomcat/webapps/*.war'
 
             echo 'Moving the war(s) to the server'
-            sh 'sudo mv -f ./build/libs/*.war /opt/tomcat/webapps/'
+            sh 'mv -f ./build/libs/*.war /opt/tomcat/webapps/'
 
             echo 'Start the server again'
-            sh 'sudo /opt/tomcat/bin/startup.sh'
+            sh '/opt/tomcat/bin/startup.sh'
         }
     }
 }
